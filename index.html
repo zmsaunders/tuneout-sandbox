@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What the Miamisburg school income tax would cost you</title>
+<meta name="description" content="An independent estimator for the 0.5% Miamisburg City School District income tax on the November 3, 2026 ballot — what you pay if it passes, and what you likely pay if it fails.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E4E8EA; --card:#F3F5F6; --ink:#14212A; --ink-soft:#5A6C74;
+  --rule:#AEBBC0; --debit:#7A2E3B; --credit:#1F5C4A; --flag:#8C6D1F;
+  --shadow:0 1px 0 rgba(20,33,42,.14), 0 8px 24px -18px rgba(20,33,42,.6);
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --disp:"Archivo",system-ui,sans-serif;
+  --body:"Source Serif 4",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px 96px}
+
+.mast{padding:38px 0 26px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px}
+h1{font-family:var(--disp);font-weight:800;letter-spacing:-.022em;line-height:1.03;font-size:clamp(30px,7.4vw,50px);margin:0 0 16px;text-wrap:balance}
+.standfirst{margin:0;max-width:56ch;color:#26363F}
+.standfirst strong{font-weight:600}
+
+.sec{margin-top:40px}
+.sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:7px;margin-bottom:20px}
+.sec-head h2{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.13em;text-transform:uppercase;margin:0}
+.sec-head .hint{font-family:var(--disp);font-size:11.5px;letter-spacing:.05em;color:var(--ink-soft);margin-left:auto;text-align:right}
+
+.presets{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:520px){.presets{grid-template-columns:1fr}}
+.preset{display:block;width:100%;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:11px 13px;font-family:var(--body);font-size:15px;color:var(--ink);transition:border-color .12s,background .12s}
+.preset:hover{border-color:var(--ink)}
+.preset:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.preset[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.preset b{display:block;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.preset span{font-size:14px;opacity:.78}
+
+.fields{display:flex;flex-direction:column;gap:22px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f > label{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.01em;color:var(--ink)}
+.f .src{font-family:var(--mono);font-size:12px;letter-spacing:.01em;color:var(--flag);text-transform:uppercase}
+.f .note{font-size:14.5px;color:var(--ink-soft);line-height:1.42;font-style:italic;max-width:60ch}
+.f .note a{color:inherit}
+.money{position:relative;display:flex;align-items:center;margin-top:3px}
+.money::before{content:"$";position:absolute;left:12px;font-family:var(--mono);font-size:17px;color:var(--ink-soft);pointer-events:none}
+input[type=number],select{width:100%;font-family:var(--mono);font-size:18px;font-weight:500;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:12px 12px;appearance:none}
+input[type=number]:focus,select:focus{outline:2px solid var(--ink);outline-offset:-1px;border-color:var(--ink)}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+.money input[type=number]{padding-left:29px}
+.short{max-width:190px}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);background-position:calc(100% - 17px) 53%,calc(100% - 12px) 53%;background-size:5px 5px;background-repeat:no-repeat}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.row2{grid-template-columns:1fr}}
+
+.optional{border-left:2px solid var(--rule);padding:2px 0 2px 15px}
+.optional summary{cursor:pointer;list-style:none;font-family:var(--disp);font-weight:600;font-size:13.5px;color:var(--ink-soft)}
+.optional summary::-webkit-details-marker{display:none}
+.optional summary::before{content:"+ ";font-family:var(--mono)}
+.optional[open] summary::before{content:"− "}
+.optional summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.optional .inner{padding-top:14px;display:flex;flex-direction:column;gap:18px}
+
+/* receipt */
+.receipt{position:relative;margin-top:46px;background:var(--card);box-shadow:var(--shadow);padding:30px 22px 26px}
+.receipt::before,.receipt::after{content:"";position:absolute;left:0;right:0;height:8px;background:repeating-linear-gradient(90deg,var(--paper) 0 7px,transparent 7px 14px)}
+.receipt::before{top:-1px}
+.receipt::after{bottom:-1px}
+.r-head{text-align:center;padding-bottom:18px;border-bottom:2px solid var(--ink)}
+.r-head h2{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.11em;text-transform:uppercase;margin:0 0 5px}
+.r-head p{font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;color:var(--ink-soft);margin:0}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:6px}
+.col{padding:20px 18px 14px}
+.col:first-child{border-right:1px dashed var(--rule)}
+@media(max-width:640px){
+  .cols{grid-template-columns:1fr}
+  .col:first-child{border-right:0;border-bottom:1px dashed var(--rule)}
+}
+.col-title{font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 4px;padding:4px 9px;display:inline-block;color:var(--card);background:var(--ink)}
+.col-title.yes{background:var(--debit)}
+.col-title.no{background:var(--ink-soft)}
+.col-sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin:6px 0 14px}
+.big{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;font-size:clamp(34px,7vw,46px);line-height:1;letter-spacing:-.03em;display:block}
+.big-unit{font-family:var(--disp);font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px;display:block}
+.big-year{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink-soft);margin:10px 0 14px;padding-top:9px;border-top:1px dotted var(--rule);display:block}
+
+.block{padding:12px 0 6px}
+.block-title{font-family:var(--disp);font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px}
+.li{display:flex;align-items:baseline;gap:5px;padding:3.5px 0;font-size:14.5px}
+.li .lead{flex:1;border-bottom:1px dotted var(--rule);transform:translateY(-4px)}
+.li .amt{font-family:var(--mono);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.li.sub{border-top:1px solid var(--ink);margin-top:8px;padding-top:8px;font-weight:600}
+.li.sub .amt{font-weight:600}
+.li.muted,.li.muted .amt{color:var(--ink-soft)}
+.li.muted .name{font-style:italic}
+.pos{color:var(--debit)}
+.neg{color:var(--credit)}
+
+.diff{margin:18px 0 0;border:2px solid var(--ink);padding:16px 18px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px}
+.diff .stamp{font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:.17em;text-transform:uppercase;padding:4px 10px;color:var(--card);background:var(--ink)}
+.diff .stamp.pos{background:var(--debit)}
+.diff .stamp.neg{background:var(--credit)}
+.diff .fig{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;font-size:clamp(26px,5vw,34px);letter-spacing:-.02em}
+.diff .txt{font-size:15px;color:#37454C;flex-basis:100%}
+
+.flags{margin-top:20px;display:flex;flex-direction:column;gap:9px}
+.flag{display:flex;gap:10px;font-size:15px;line-height:1.45;border-left:3px solid var(--flag);padding:2px 0 2px 12px;color:#37454C}
+.flag b{font-weight:600;color:var(--ink)}
+
+.chip{font-family:var(--disp);font-weight:600;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);border:1px solid var(--flag);border-radius:2px;padding:1px 5px;vertical-align:2px;margin-left:6px;white-space:nowrap}
+.chip.src{color:var(--ink-soft);border-color:var(--rule)}
+
+/* plain-English popups */
+.why{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:7px;vertical-align:1px;border-radius:50%;border:1.5px solid var(--flag);background:transparent;color:var(--flag);font-family:var(--disp);font-weight:800;font-size:12px;line-height:1;cursor:pointer;padding:0}
+.why:hover{background:var(--flag);color:var(--card)}
+.why:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+dialog.pop{border:2px solid var(--ink);border-radius:2px;background:var(--card);color:var(--ink);padding:0;max-width:min(560px,calc(100vw - 32px));font-family:var(--body);box-shadow:var(--shadow)}
+dialog.pop::backdrop{background:rgba(20,33,42,.55)}
+.pop-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:2px solid var(--ink)}
+.pop-head h3{font-family:var(--disp);font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0;flex:1}
+.pop-head button{font-family:var(--disp);font-weight:600;font-size:13px;background:var(--ink);color:var(--card);border:0;padding:6px 12px;cursor:pointer;border-radius:2px}
+.pop-body{padding:16px 18px 6px;font-size:16.5px;line-height:1.5}
+.pop-body p{margin:0 0 12px}
+.pop-body b{font-weight:600}
+.pop-body .tl{font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.pop-body ul{margin:0 0 12px;padding-left:20px}
+
+details.doc{border-top:1px solid var(--rule);padding:15px 0}
+details.doc > summary{cursor:pointer;font-family:var(--disp);font-weight:600;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;list-style:none}
+details.doc > summary::-webkit-details-marker{display:none}
+details.doc > summary::before{content:"+ ";font-family:var(--mono);color:var(--ink-soft)}
+details.doc[open] > summary::before{content:"− "}
+details.doc > summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+details.doc .body{padding-top:12px;font-size:15.5px;max-width:62ch}
+details.doc .body p{margin:0 0 11px}
+details.doc .body ul{margin:0 0 11px;padding-left:19px}
+details.doc .body li{margin-bottom:6px}
+details.doc .body code{font-family:var(--mono);font-size:13.5px;background:var(--paper);padding:1px 4px}
+
+footer{margin-top:52px;padding-top:20px;border-top:2px solid var(--ink);font-size:14px;color:var(--ink-soft)}
+footer p{margin:0 0 9px;max-width:58ch}
+a{color:var(--ink);text-underline-offset:2px}
+
+@media(prefers-reduced-motion:no-preference){
+  .diff .stamp{animation:stamp .22s ease-out}
+  @keyframes stamp{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Issue — Miamisburg City School District — Nov. 3, 2026</p>
+  <h1>What the 0.5% school income tax would actually cost you.</h1>
+  <p class="standfirst">Three numbers off your Ohio tax return and one off the county auditor's site. <strong>You get two receipts: one if the levy passes, one if it fails.</strong> The property-tax changes the state already passed show up on both, because they happen either way.</p>
+</header>
+
+<section class="sec">
+  <div class="sec-head">
+    <h2>Start from a household</h2>
+    <span class="hint">or skip and use your own</span>
+  </div>
+  <div class="presets" id="presets"></div>
+</section>
+
+<section class="sec">
+  <div class="sec-head">
+    <h2>From your Ohio IT 1040</h2>
+    <span class="hint">Last year's return works fine</span>
+  </div>
+  <div class="fields">
+
+    <div class="f">
+      <label for="oagi">Ohio adjusted gross income<button type="button" class="why" data-why="who-pays" aria-label="Plain-English explanation">?</button></label>
+      <span class="src">IT 1040 — line 3</span>
+      <div class="money"><input type="number" id="oagi" min="0" step="500" value="0" inputmode="numeric"></div>
+      <span class="note">Social Security is already out of this number. No return handy? Total income minus Social Security gets you close.</span>
+    </div>
+
+    <div class="f">
+      <label for="household">People claimed on that return</label>
+      <span class="src">Sets your exemption — IT 1040 line 4</span>
+      <input type="number" id="household" class="short" min="1" max="12" step="1" value="1" inputmode="numeric">
+      <span class="note">You, a spouse, and any dependents.</span>
+    </div>
+
+    <details class="optional">
+      <summary>I claimed a business income deduction</summary>
+      <div class="inner">
+        <div class="f">
+          <label for="bid">Business income deduction<button type="button" class="why" data-why="bid" aria-label="Plain-English explanation">?</button></label>
+          <span class="src">Schedule of Adjustments — line 13</span>
+          <div class="money"><input type="number" id="bid" min="0" step="500" value="0" inputmode="numeric"></div>
+          <span class="note">The school district return adds this back. It lowers your state tax and does nothing here.</span>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head">
+    <h2>From the county auditor</h2>
+    <span class="hint">Skip if you rent</span>
+  </div>
+  <div class="fields">
+
+    <div class="f">
+      <label for="value">Appraised value of your home</label>
+      <span class="src">Auditor — "Appraised (100%) value", total</span>
+      <div class="money"><input type="number" id="value" min="0" step="5000" value="0" inputmode="numeric"></div>
+      <span class="note"><a href="https://www.mcrealestate.org/search/commonsearch.aspx?mode=address" target="_blank" rel="noopener">Look your address up on the auditor's site</a>, open your parcel, and copy the total appraised value. Use the 2025 value; the 2026 reappraisal notices come this fall.</span>
+    </div>
+
+    <div class="f">
+      <label for="hb129">HB 129 floor reset — how far your school rate drops in 2026<button type="button" class="why" data-why="floor" aria-label="Plain-English explanation">?</button></label>
+      <span class="src">Mills — the auditor certifies this in December</span>
+      <select id="hb129">
+        <option value="0">Assume no drop</option>
+        <option value="2" selected>2 mills — modest</option>
+        <option value="4">4 mills</option>
+        <option value="6">6 mills</option>
+        <option value="8">8 mills — large</option>
+      </select>
+      <span class="note">Miamisburg's emergency and substitute levies (about 17 mills) start counting toward the 20-mill floor in tax year 2026. That takes the district off the floor and reinstates the reduction factors it lost. The size of the drop isn't public yet. This shows up on 2027 bills, and it happens whether or not the levy passes.</span>
+    </div>
+
+    <details class="optional">
+      <summary>If it fails — what the district would likely do next</summary>
+      <div class="inner">
+        <div class="f">
+          <label for="altMills">Replacement property levy<button type="button" class="why" data-why="alt" aria-label="Plain-English explanation">?</button></label>
+          <span class="src">Mills — scenario, not a district plan <span class="chip">verify</span></span>
+          <select id="altMills">
+            <option value="0">No replacement levy</option>
+            <option value="4">4 mills</option>
+            <option value="5" selected>5 mills — raises about what the income tax would</option>
+            <option value="6">6 mills</option>
+            <option value="7">7 mills</option>
+          </select>
+          <span class="note">Emergency, substitute, and replacement levies are gone as of 2026, but a plain new-money operating levy is still legal. The district needs about $7 million a year; on Miamisburg's tax base that's roughly 5 mills, and the next ballot is May 2027. The district hasn't announced a fallback; this is arithmetic, not a plan.</span>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="acts">Sports or activities your kids do each year<button type="button" class="why" data-why="fees" aria-label="Plain-English explanation">?</button></label>
+            <span class="src">Count — all kids, all seasons</span>
+            <input type="number" id="acts" class="short" min="0" max="15" step="1" value="0" inputmode="numeric">
+          </div>
+          <div class="f">
+            <label for="fee">Pay-to-participate fee per activity</label>
+            <span class="src">Default: what Ohio districts charged after a failed levy</span>
+            <div class="money"><input type="number" id="fee" min="0" step="25" value="300" inputmode="numeric"></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="riders">High schoolers who ride the bus<button type="button" class="why" data-why="bus" aria-label="Plain-English explanation">?</button></label>
+            <span class="src">Count — HS busing is the first thing cut</span>
+            <input type="number" id="riders" class="short" min="0" max="10" step="1" value="0" inputmode="numeric">
+          </div>
+          <div class="f">
+            <label for="drive">Cost to drive them yourself, per kid per year</label>
+            <span class="src">Default: 6 miles a day × 180 days × 70¢ IRS rate</span>
+            <div class="money"><input type="number" id="drive" min="0" step="50" value="750" inputmode="numeric"></div>
+          </div>
+        </div>
+        <div class="f">
+          <label for="other">Anything else, per year</label>
+          <span class="src">Dollars — childcare, tutoring, lost programs</span>
+          <div class="money"><input type="number" id="other" min="0" step="100" value="0" inputmode="numeric"></div>
+          <span class="note">Fees and driving only count if you enter kids above. The dollar defaults are averages from other Ohio districts; change them if you know better.</span>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<section class="receipt" id="receipt" aria-live="polite">
+  <div class="r-head">
+    <h2>Two receipts</h2>
+    <p>MIAMISBURG CSD · 0.5% · NOV. 3, 2026 BALLOT · FIRST FULL YEAR, 2027 <button type="button" class="why" data-why="forever" aria-label="Plain-English explanation">?</button></p>
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <span class="col-title yes">If it passes</span>
+      <p class="col-sub">Income tax begins Jan. 1, 2027</p>
+      <span class="big" id="yesFig">$0</span>
+      <span class="big-unit">per month, net change</span>
+      <span class="big-year" id="yesYear">&nbsp;</span>
+      <div class="block">
+        <p class="block-title">School district income tax</p>
+        <div id="incomeLines"></div>
+      </div>
+      <div class="block">
+        <p class="block-title">Property tax — state changes already law<button type="button" class="why" data-why="both" aria-label="Plain-English explanation">?</button></p>
+        <div id="propLinesYes"></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <span class="col-title no">If it fails</span>
+      <p class="col-sub">No income tax. District returns to ballot.</p>
+      <span class="big" id="noFig">$0</span>
+      <span class="big-unit">per month, net change</span>
+      <span class="big-year" id="noYear">&nbsp;</span>
+      <div class="block">
+        <p class="block-title">Likely replacement levy<button type="button" class="why" data-why="alt" aria-label="Plain-English explanation">?</button></p>
+        <div id="altLines"></div>
+      </div>
+      <div class="block">
+        <p class="block-title">Property tax — state changes already law</p>
+        <div id="propLinesNo"></div>
+      </div>
+      <div class="block">
+        <p class="block-title">Costs from cuts<button type="button" class="why" data-why="fees" aria-label="Plain-English explanation">?</button></p>
+        <div id="cutLines"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diff">
+    <span class="stamp" id="stamp">Enter your numbers</span>
+    <span class="fig" id="diffFig"></span>
+    <span class="txt" id="diffTxt"></span>
+  </div>
+
+  <div class="flags" id="flags"></div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>How this is calculated</h2></div>
+
+  <details class="doc" open>
+    <summary>The income tax side</summary>
+    <div class="body">
+      <p>The Ohio SD 100, traditional base: start from IT 1040 line 5 (Ohio AGI minus exemptions, never below zero), add back the business income deduction from the Schedule of Adjustments line 13, multiply by 0.5%.</p>
+      <p>Exemptions use the 2025 amounts: $2,400 per person up to $40,000 of modified AGI, $2,150 to $80,000, $1,900 above that, and $0 once modified AGI reaches $500,000 (the threshold set in R.C. 5747.025 for 2026 and later). The state indexes these each year, so 2027's figures will be a little higher.</p>
+      <p>Ohio's retirement income credit, senior citizen credit, joint filing credit, and the zero bracket below $26,050 all live on the IT 1040. <b>None of them touch the SD 100.</b> A household that owes Ohio nothing can still owe this.</p>
+      <p>Pensions, IRA and 401(k) withdrawals, interest, dividends, capital gains, and rental income are all in Ohio AGI and all taxed. Social Security is not. If you work in the district but live outside it, you pay nothing.</p>
+    </div>
+  </details>
+
+  <details class="doc">
+    <summary>The property tax side</summary>
+    <div class="body">
+      <p>Two state laws signed in December 2025 change Miamisburg school taxes regardless of this vote, so they appear on both receipts.</p>
+      <p><b>HB 186</b> gives a credit to homeowners in districts sitting at the 20-mill floor. The county auditor estimates $80 per $100,000 of value for Miamisburg, first appearing on second-half 2026 bills and growing after that.</p>
+      <p><b>HB 129</b> counts emergency and substitute levies toward the 20-mill floor starting in tax year 2026, the year Montgomery County reappraises. Miamisburg carries about 17 mills of those levies, so it comes off the floor and its voted levies go back under HB 920 reduction factors. The district's treasurer puts the revenue loss at $13.5 million over four years. What that means for one bill isn't certified until December; the dropdown lets you try sizes. One mill is $35 per $100,000 of appraised value.</p>
+      <p>HB 96 eliminated new emergency, substitute, and replacement levies as of Jan. 1, 2026. Ordinary voted operating levies remain legal, and Miamisburg's existing 17 mills can be renewed once more as fixed-sum levies for at most five years. The replacement-levy row on the "fails" receipt is arithmetic: the district's stated need (about $7 million a year) divided by an estimated tax base. Change either in <code>CONFIG</code>.</p>
+    </div>
+  </details>
+
+  <details class="doc">
+    <summary>What still needs verifying</summary>
+    <div class="body">
+      <ul>
+        <li>District taxable valuation for the replacement-levy mills. The 2025 abstract from the county auditor will settle it.</li>
+        <li>The district's actual reduction plan if the levy fails, and any fee schedule. Nothing is assumed here; the fields default to zero.</li>
+        <li>The tax year 2026 rate sheet, once the budget commission certifies it, to replace the HB 129 dropdown with a number.</li>
+        <li>The certified ballot language from the Board of Elections.</li>
+      </ul>
+      <p>Every assumption lives in <code>CONFIG</code> at the top of the script.</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <p><b>This is an estimate.</b> Not tax advice, and not the district's math. Check it against your own return and, if the amount matters to you, a tax preparer.</p>
+  <p>Nothing you type is stored or sent anywhere. The calculation runs entirely in your browser.</p>
+  <p>Source and methodology: <a href="#">github.com/…</a> · Corrections welcome and logged.</p>
+</footer>
+
+
+<dialog class="pop" id="pop">
+  <div class="pop-head"><h3 id="popTitle"></h3><button type="button" id="popClose">Got it</button></div>
+  <div class="pop-body" id="popBody"></div>
+</dialog>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — every assumption lives here.
+   ============================================================ */
+const CONFIG = {
+  rate: 0.005,
+  // Ohio personal exemption, tax year 2025 amounts (indexed annually).
+  // $0 tier: R.C. 5747.025 — MAGI >= $500,000 for tax years 2026+.
+  exemption: [[40000,2400],[80000,2150],[500000,1900],[Infinity,0]],
+  // Ohio assessment ratio: taxes are levied on 35% of appraised value.
+  assessRatio: 0.35,
+  // HB 186 20-mill-floor credit for Miamisburg CSD, per $100k appraised.
+  // Source: Montgomery County Auditor, Jan. 22, 2026 annual update.
+  hb186Per100k: 80,
+  // Replacement-levy scenario if the income tax fails.
+  altLevy: {
+    need: 7000000,              // district's stated annual need (~$7M/yr, DDN Aug 2026)
+    taxableValue: 1400000000,   // est. district taxable value — VERIFY with 2025 abstract
+    verify: true
+  }
+};
+
+const PRESETS = [
+  { key:"retiree", label:"Retiree on a pension", blurb:"$50k pension and interest, $22k Social Security, $230k home",
+    v:{ oagi:50500, household:2, bid:0, value:230000 } },
+  { key:"median", label:"Median household", blurb:"$72k in wages, two kids, $215k home",
+    v:{ oagi:72400, household:4, bid:0, value:215000, acts:3, riders:1 } },
+  { key:"renter", label:"Renter", blurb:"$48k in wages, one kid, no property",
+    v:{ oagi:48000, household:2, bid:0, value:0, acts:1, riders:0 } },
+  { key:"owner", label:"Business owner", blurb:"$224k, mostly pass-through, $410k home",
+    v:{ oagi:24000, household:2, bid:200000, value:410000 } }
+];
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const num = id => { const n = parseFloat($(id).value); return isFinite(n) ? Math.max(0, n) : 0; };
+const usd = n => "$" + Math.abs(Math.round(n)).toLocaleString("en-US");
+const usd2 = n => "$" + Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const sgn = n => n > 0.5 ? "+" : n < -0.5 ? "−" : "";
+const cls = n => n > 0.5 ? "pos" : n < -0.5 ? "neg" : "";
+const chip = f => f ? ' <span class="chip">verify</span>' : '';
+const li = (name, amount, c="") =>
+  `<div class="li ${c}"><span class="name">${name}</span><span class="lead"></span><span class="amt">${amount}</span></div>`;
+
+$("presets").innerHTML = PRESETS.map(p =>
+  `<button class="preset" type="button" aria-pressed="false" data-key="${p.key}">
+     <b>${p.label}</b><span>${p.blurb}</span>
+   </button>`).join("");
+
+$("presets").addEventListener("click", e => {
+  const btn = e.target.closest(".preset"); if (!btn) return;
+  const p = PRESETS.find(x => x.key === btn.dataset.key); if (!p) return;
+  const defaults = { oagi:0, household:1, bid:0, value:0, acts:0, riders:0 };
+  for (const [k, val] of Object.entries({ ...defaults, ...p.v })) { const el = $(k); if (el) el.value = val; }
+  document.querySelectorAll(".optional")[0].open = p.v.bid > 0;
+  document.querySelectorAll(".optional")[1].open = (p.v.acts || 0) > 0;
+  document.querySelectorAll(".preset").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  calc();
+  $("receipt").scrollIntoView({ behavior:"smooth", block:"start" });
+});
+
+function exemptionAmount(magi){
+  for (const [ceil, amt] of CONFIG.exemption) if (magi <= ceil) return amt;
+  return 0;
+}
+
+function calc(){
+  /* ---------- income tax (SD 100, traditional base) ---------- */
+  const oagi  = num("oagi");
+  const bid   = num("bid");
+  const count = Math.max(1, Math.round(num("household")) || 1);
+
+  const magi   = oagi + bid;                     // exemption tier keys off modified AGI
+  const exAmt  = exemptionAmount(magi);
+  const exTot  = exAmt * count;
+  const line5  = Math.max(0, oagi - exTot);      // IT 1040 line 5, floored at zero
+  const base   = line5 + bid;                    // SD 100: line 5 + BID add-back
+  const tax    = base * CONFIG.rate;
+
+  const IL = [];
+  IL.push(li("Ohio adjusted gross income <em>(line 3)</em>", usd(oagi)));
+  IL.push(li(`Exemptions, ${count} × ${usd(exAmt)}`, "−" + usd(exTot), "muted"));
+  IL.push(li("Ohio income tax base <em>(line 5)</em>", usd(line5), bid > 0 ? "" : "sub"));
+  if (bid > 0){
+    IL.push(li("Business income deduction, added back <em>(line 13)</em>", "+" + usd(bid)));
+    IL.push(li("Taxable for school district", usd(base), "sub"));
+  }
+  IL.push(li("Tax at 0.5%", "+" + usd(tax), "sub pos"));
+  $("incomeLines").innerHTML = IL.join("");
+
+  /* ---------- property tax: state changes (both receipts) ---------- */
+  const value    = num("value");
+  const per100k  = value / 100000;
+  const assessed = value * CONFIG.assessRatio;
+  const hb186    = -CONFIG.hb186Per100k * per100k;
+  const mills129 = parseFloat($("hb129").value) || 0;
+  const hb129    = -mills129 * assessed / 1000;
+  const propBoth = hb186 + hb129;
+
+  const propLines = () => {
+    if (value <= 0) return li("No property — renter or not entered", "—", "muted");
+    const L = [];
+    L.push(li("Appraised value", usd(value), "muted"));
+    L.push(li("HB 186 floor credit, $80 per $100k", sgn(hb186) + usd(hb186), cls(hb186)));
+    L.push(li(`HB 129 floor reset, ${mills129} mills`, sgn(hb129) + usd(hb129), cls(hb129)));
+    L.push(li("Change, either outcome", sgn(propBoth) + usd(propBoth), "sub " + cls(propBoth)));
+    return L.join("");
+  };
+  $("propLinesYes").innerHTML = propLines();
+  $("propLinesNo").innerHTML  = propLines();
+
+  /* ---------- if it fails: replacement levy + cuts ---------- */
+  const altMills = parseFloat($("altMills").value) || 0;
+  const altTax   = altMills * assessed / 1000;
+  const AL = [];
+  if (altMills === 0){
+    AL.push(li("No replacement levy assumed", "—", "muted"));
+  } else if (value <= 0){
+    AL.push(li(`${altMills}-mill property levy — you don't own`, "$0", "muted"));
+  } else {
+    AL.push(li(`${altMills} mills on ${usd(assessed)} assessed${chip(CONFIG.altLevy.verify)}`, "+" + usd(altTax), "sub pos"));
+  }
+  $("altLines").innerHTML = AL.join("");
+
+  const acts   = Math.round(num("acts"));
+  const fee    = num("fee");
+  const riders = Math.round(num("riders"));
+  const drive  = num("drive");
+  const other  = num("other");
+  const fees   = acts * fee;
+  const driving = riders * drive;
+  const CL = [];
+  if (fees > 0)    CL.push(li(`Pay-to-participate, ${acts} × ${usd(fee)}`, "+" + usd(fees), "pos"));
+  if (driving > 0) CL.push(li(`Driving instead of the bus, ${riders} × ${usd(drive)}`, "+" + usd(driving), "pos"));
+  if (other > 0)   CL.push(li("Other costs you entered", "+" + usd(other), "pos"));
+  if (!CL.length)  CL.push(li("No kids entered — nothing assumed", "$0", "muted"));
+  const cuts = fees + driving + other;
+  $("cutLines").innerHTML = CL.join("");
+
+  /* ---------- totals ---------- */
+  const yesYear = tax + propBoth;
+  const noYear  = propBoth + altTax + cuts;
+  const diff    = yesYear - noYear;             // positive: passing costs more
+
+  const fmtBig = (el, yr, n) => {
+    el.textContent = (n < -0.5 ? "−" : n > 0.5 ? "+" : "") + usd2(n / 12);
+    el.className = "big " + cls(n);
+    yr.textContent = `${sgn(n)}${usd(n)} over a full year`;
+  };
+  const empty = oagi === 0 && value === 0;
+  if (empty){
+    $("yesFig").textContent = "$0"; $("yesFig").className = "big";
+    $("noFig").textContent  = "$0"; $("noFig").className  = "big";
+    $("yesYear").innerHTML = "&nbsp;"; $("noYear").innerHTML = "&nbsp;";
+    $("stamp").className = "stamp"; $("stamp").textContent = "Enter your numbers";
+    $("diffFig").textContent = ""; $("diffTxt").textContent = "";
+  } else {
+    fmtBig($("yesFig"), $("yesYear"), yesYear);
+    fmtBig($("noFig"),  $("noYear"),  noYear);
+    const st = $("stamp");
+    st.className = "stamp " + cls(diff);
+    st.style.animation = "none"; void st.offsetWidth; st.style.animation = "";
+    if (Math.abs(diff) <= 0.5){
+      st.textContent = "About even";
+      $("diffFig").textContent = "$0";
+      $("diffTxt").textContent = "Passing and failing cost you about the same under these assumptions.";
+    } else {
+      st.textContent = diff > 0 ? "Passing costs you more" : "Failing costs you more";
+      $("diffFig").textContent = usd2(Math.abs(diff) / 12) + " / mo";
+      $("diffTxt").textContent = `${usd(Math.abs(diff))} a year, comparing the two receipts. The state property-tax changes cancel out; what's left is the income tax against ${altMills > 0 ? "a replacement levy" : "nothing"}${cuts > 0 ? " plus fees and driving" : ""}.`;
+    }
+  }
+
+  /* ---------- flags ---------- */
+  const F = [];
+  if (base > 0 && bid > 0)
+    F.push(`<b>Your deduction doesn't count here.</b> ${usd(bid)} that lowers your state tax gets added straight back on the school district return.`);
+  if (base > 0 && oagi < 30000 && bid === 0)
+    F.push(`<b>You may owe Ohio nothing and still owe this.</b> The zero bracket applies to the state return, not the school district return.`);
+  if (exAmt === 0 && magi > 0)
+    F.push(`<b>No exemption at your income.</b> Above $500,000 of modified AGI the personal exemption is $0, so every dollar is in the base.`);
+  if (value <= 0 && oagi > 0 && altMills > 0)
+    F.push(`<b>Renters pay this and would pay nothing under a property levy.</b> That is the whole difference between the two receipts for you.`);
+  if (base > 0)
+    F.push(`<b>Watch for a lump sum.</b> Employers withhold this from wages. Pension, investment, and business income aren't withheld; that comes due on the SD 100 each April, and you may owe quarterly estimates.`);
+  if (value > 0)
+    F.push(`<b>Your 2026 reappraisal doesn't raise the school part.</b> Once HB 129 takes Miamisburg off the floor, voted school levies stop growing with value. Inside and charter mills still do, capped by HB 335 at three years of inflation.`);
+  F.push(`<b>This levy is continuing.</b> No expiration, no scheduled return to voters. If it fails, the district's next ballot is May 2027, and a plain operating mill levy is still legal for them to run.`);
+  $("flags").innerHTML = F.map(t => `<div class="flag"><span>${t}</span></div>`).join("");
+
+}
+
+
+/* Plain-English popups. Keep these readable by anyone. */
+const EXPLAIN = {
+  "who-pays": {
+    t: "Who actually pays this",
+    h: `<p><b>Anyone who lives in the Miamisburg school district and has income.</b> It doesn't matter where you work. It doesn't matter if you own or rent.</p>
+<p>This is a "traditional base" income tax. That means it's on almost everything on your Ohio return: paychecks, pensions, 401(k) and IRA withdrawals, interest, dividends, stock gains, rental income.</p>
+<p><b>Social Security is NOT taxed.</b> That's the one big exception.</p>
+<p>The senior credits and retirement credits that lower your Ohio state tax do not apply here. If you're retired and paying zero to Ohio, you can still owe this.</p>
+<p>If you work in Miamisburg but live in Springboro, Kettering, or anywhere else outside the district, you pay nothing.</p>`
+  },
+  bid: {
+    t: "Business owners: your deduction doesn't help here",
+    h: `<p>Ohio lets small business owners and people with side businesses skip state tax on their first $250,000 of business income. That's the business income deduction.</p>
+<p><b>The school district tax ignores it.</b> Whatever you deducted on your state return gets added right back before this tax is figured.</p>
+<p>So a business owner who pays very little Ohio income tax can owe a lot of school district income tax.</p>`
+  },
+  floor: {
+    t: "Why your school property tax is about to drop anyway",
+    h: `<p>Here's the short version of something genuinely confusing.</p>
+<p>Ohio has a rule called the <b>"20-mill floor."</b> When home values jump, most school taxes are supposed to get scaled down so the school collects about the same dollars. But if a district's rate is already down at the floor, it can't scale down any more, and the school just collects more every time values go up. <b>Miamisburg has been sitting on that floor since 2023.</b> That's a big reason your bill jumped.</p>
+<p>The state changed the rule in December 2025. Two laws matter:</p>
+<p><b>HB 186</b> gives homeowners in floor districts a credit. The county auditor says about $80 a year per $100,000 of home value for Miamisburg. It starts on the bill you get this summer and grows over time.</p>
+<p><b>HB 129</b> changes how the floor is counted so that Miamisburg's two big existing levies (about 17 mills) now count toward it. That knocks Miamisburg off the floor in 2026. Once it's off, the scaling-down kicks back in and your school taxes stop climbing with your home value. They may go down. How much isn't known until the county certifies rates in December, so this calculator lets you try a few sizes.</p>
+<p><b>Both of these happen whether the levy passes or fails.</b> That's why they show up on both receipts.</p>`
+  },
+  both: {
+    t: "Why the same property lines show up on both receipts",
+    h: `<p>Because they're not caused by this vote. The state already passed them.</p>
+<p>The levy campaign may say "your property taxes are going down." That's likely true. But it's true either way. Voting no doesn't stop it. Voting yes doesn't cause it.</p>
+<p>So we show it on both sides and let it cancel out. What's left is the real question: <b>the income tax versus whatever happens if it fails.</b></p>`
+  },
+  alt: {
+    t: "Wait, can they even do a property levy anymore?",
+    h: `<p>Yes. This one trips people up.</p>
+<p>The state <b>did</b> ban a few specific kinds of school property levies starting in 2026: "emergency" levies, "substitute" levies, and "replacement" levies. Those were the ones that quietly grew with home values or got relabeled to look like they weren't a tax increase.</p>
+<p>The state did <b>not</b> ban the plain, old-fashioned kind: "X mills for operating expenses." Dayton Public Schools has a 9-mill one on this very same November ballot. Miamisburg can do that too. It just has to be called what it is: a tax increase.</p>
+<p>The income tax is not the district's only option. It's the option they picked.</p>
+<div class="tl">So what's the number?</div>
+<p>The district says it needs about $7 million a year. Spread across all the taxable property in the district, that's roughly 5 mills, which is about $175 a year per $100,000 of home value. The district hasn't announced a fallback, and the next ballot is May 2027. <b>This is math, not a plan.</b> You can change it above.</p>
+<p>One more thing: Miamisburg's existing 17 mills can be renewed one more time as "fixed-sum" levies, for five years max, and then they're gone for good. So the district is going to be back asking for something, income tax or mills, regardless of this vote.</p>`
+  },
+  fees: {
+    t: "Where the fee numbers come from",
+    h: `<p>When Ohio school levies fail, the first thing districts do is charge families for sports and activities, or raise the fee they already charge.</p>
+<p>Recent examples, per sport or activity per year:</p>
+<ul>
+<li><b>Reynoldsburg (2025):</b> raised to $500 for high school, $400 for junior high</li>
+<li><b>Barberton (2026):</b> started charging $100 high school, $50 middle school</li>
+<li><b>Pickerington:</b> +25% on existing fees if its levy failed</li>
+<li><b>Mentor (2026):</b> +20% on sports, band, Science Olympiad</li>
+<li>Several Ohio districts are at $500 per sport already</li>
+</ul>
+<p>We default to <b>$300 per activity</b>, a middle number. If your kid plays two sports and does band, that's three activities. Miamisburg hasn't published a cut list, so this is a comparison to other districts, not a promise about this one. Change the number if you know better.</p>`
+  },
+  bus: {
+    t: "Busing: the cut nobody sees coming",
+    h: `<p>Ohio law requires districts to bus kids in grades K–8 who live more than two miles from school. <b>It does not require high school busing.</b> That's why high school busing is usually one of the first things cut when a levy fails.</p>
+<p>If your high schooler rides the bus today and it goes away, someone drives. We assume about 6 miles of driving a day (a short round trip, twice), 180 school days, at the IRS mileage rate of 70 cents. That's about $750 a year per kid, before you count your time.</p>
+<p>Change it if your drive is longer or shorter, or leave riders at zero if it doesn't apply.</p>`
+  },
+  forever: {
+    t: "“Continuing” means forever",
+    h: `<p>Some levies run five years and then come back to voters. This one doesn't.</p>
+<p><b>"For a continuing period of time"</b> is the legal phrase for permanent. If it passes, the 0.5% stays on your income every year until the school board or voters go through a separate process to remove it, which almost never happens.</p>
+<p>It also starts January 1, 2027, so the first full year you'd feel it is 2027, with the first return due April 2028. If you're paid by an employer, it comes out of every paycheck starting that January.</p>`
+  }
+};
+
+const pop = $("pop");
+document.addEventListener("click", e => {
+  const b = e.target.closest(".why"); if (!b) return;
+  const x = EXPLAIN[b.dataset.why]; if (!x) return;
+  $("popTitle").textContent = x.t; $("popBody").innerHTML = x.h;
+  pop.showModal();
+});
+$("popClose").addEventListener("click", () => pop.close());
+pop.addEventListener("click", e => { if (e.target === pop) pop.close(); });
+
+// Label the replacement-levy option with the mills implied by CONFIG, once.
+(() => {
+  const m = Math.round(CONFIG.altLevy.need / (CONFIG.altLevy.taxableValue / 1000) * 10) / 10;
+  const opt = $("altMills").querySelector('option[value="5"]');
+  if (opt){ opt.value = String(m); opt.textContent = `${m} mills — raises about what the income tax would`; }
+})();
+
+document.querySelectorAll("input, select").forEach(el =>
+  el.addEventListener("input", () => {
+    document.querySelectorAll(".preset").forEach(b => b.setAttribute("aria-pressed","false"));
+    calc();
+  }));
+
+calc();
+</script>
+</body>
+</html>
